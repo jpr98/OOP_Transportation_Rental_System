@@ -44,18 +44,53 @@ Reservation::Reservation()
 	days = 0;
 	contractDate;
 }
-Reservation::Reservation(string key, int clientID, int days, Date contract);
+Reservation::Reservation(string key, int clientID, int days, Date contract)
+{
+	this->key = key;
+	this->clientID = clientID;
+	this->days = days;
+	contractDate = contract;
+}
 // Getters
-string getKey();
-int getClientID();
-int getDays();
-Date getContractDate();
+string Reservation::getKey()
+{
+	return key;
+}
+int Reservation::getClientID()
+{
+	return clientID;
+}
+int Reservation::getDays()
+{
+	return days;
+}
+Date Reservation::getContractDate()
+{
+	return contractDate;
+}
 // Setters
-void setKey(string key);
-void setClientID(int clientID);
-void setDays(int days);
-void setContract(Date contract);
+void Reservation::setKey(string key)
+{
+	this->key = key;
+}
+void Reservation::setClientID(int clientID)
+{
+	this->clientID = clientID;
+}
+void Reservation::setDays(int days)
+{
+	this->days = days;
+}
+void Reservation::setContract(Date contract)
+{
+	contractDate = contract;
+}
 // Operations
-Date calculateEndDate();
+Date Reservation::calculateEndDate()
+{
+	Date returnDate;
+	returnDate = contractDate + days;
+	return returnDate;
+}
 
 #endif /* Reservation_h */

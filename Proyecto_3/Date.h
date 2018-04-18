@@ -13,43 +13,37 @@
 using namespace std;
 
 class Date{
-public:
-    //constructores
-    Date();
-    Date(int,int,int);
-    //métodos de acceso
-    int getDay();
-    int getMonth();
-    int getYear();
-    
-    //métodos de modificicación
-    void setDay(int day);
-    void setMonth(int month);
-    void setYear(int year);
-    
-    //métodos de operación
-    string nameMonth();
-    bool leapYear();
-    void show();
-    bool validDate();
-    
-    //operators overload
-    // >=, <=, == que se usaran para comparar fechas
-    friend bool operator>=(Date f1, Date f2);
-    friend bool operator<=(Date f1, Date f2);
-    friend bool operator==(Date f1, Date f2);
-    
-    // + que servirá para sumarle a un objeto fecha una cantidad de días
-    friend Date operator+(Date f1, int dias);
-    
-    // >> y << para utilizar objetos de tipo Fecha con cin y cout
-    friend istream & operator>>(istream &is,Date &f1);
-    friend ostream & operator<<(ostream &os,Date f1);
-
-private:
-    int day;
-    int month;
-    int year;
+	public:
+		// Constructors
+		Date();
+		Date(int,int,int);
+		// Getters
+		int getDay();
+		int getMonth();
+		int getYear();
+		// Setters
+		void setDay(int day);
+		void setMonth(int month);
+		void setYear(int year);
+		// Operations
+		string nameMonth();
+		bool leapYear();
+		void show();
+		bool validDate();
+		// Operators overload
+		// >=, <=, == for comparing dates
+		friend bool operator>=(Date f1, Date f2);
+		friend bool operator<=(Date f1, Date f2);
+		friend bool operator==(Date f1, Date f2);
+		// + adding days to Date object
+		friend Date operator+(Date f1, int dias);
+		// >> and << to use Date objects with cin and cout
+		friend istream & operator>>(istream &is,Date &f1);
+		friend ostream & operator<<(ostream &os,Date f1);
+	private:
+		int day;
+		int month;
+		int year;
 };
 //-----------------------Definition of Methods----------------------------
 //constructor
@@ -65,7 +59,7 @@ Date::Date(int day,int month,int year){
     this->year=year;
     
 }
-//***** métodos de acceso *****
+//getters
 int Date::getDay(){
     return day;
 }
@@ -76,7 +70,7 @@ int Date::getYear(){
     return year;
 }
 
-//-------------métodos de modificicación--------------
+//setters
 void Date::setDay(int day){
     this->day= day;}
 void Date::setMonth(int month){
@@ -84,7 +78,7 @@ void Date::setMonth(int month){
 void Date::setYear(int year){
     this->year=year;}
 
-//------métodos de operación-------
+//operations
 string Date::nameMonth(){
     switch (month){
         case 1:return "January";
@@ -140,7 +134,7 @@ bool Date::validDate()
     return true;
 }
 
-// >=, <=, == que se usaran para comparar fechas
+// >=, <=, == for comparing dates
 bool operator>=(Date f1, Date f2)
 {
     bool valid = false;
@@ -187,7 +181,7 @@ bool operator == (Date f1, Date f2)
     }
     return valid;
 }
-// + que servirá para sumarle a un objeto fecha una cantidad de días
+// + adding days to Date object
 Date operator+(Date f1, int dias)
 {
     Date f2 = f1;
@@ -253,16 +247,14 @@ Date operator+(Date f1, int dias)
                     }
                     else
                         valid = true;
-                    
                 }
-                
                 break;
         }
     }
     return f2;
 }
 
-// >> y << para utilizar objetos de tipo Fecha con cin y cout
+// >> and << to use Date objects with cin and cout
 istream& operator>>(istream &is, Date &f1)
 {
     is >> f1.day;
