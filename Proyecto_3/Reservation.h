@@ -42,7 +42,7 @@ Reservation::Reservation()
 	key = "N/A";
 	clientID = 0;
 	days = 0;
-	contractDate();
+	contractDate;
 }
 Reservation::Reservation(string key, int clientID, int days, Date contract);
 // Getters

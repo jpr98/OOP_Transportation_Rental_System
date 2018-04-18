@@ -45,7 +45,7 @@ Service::Service()
 	key = "N/A";
 	description = "N/A";
 	type = '0';
-	costPerDay = 0;
+    costPerDay = 0;
 }
 Service::Service(string key, string description, char type, double cost)
 {
