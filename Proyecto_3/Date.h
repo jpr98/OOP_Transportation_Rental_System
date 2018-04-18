@@ -279,28 +279,3 @@ ostream& operator<<(ostream &os, Date f1)
 
 #endif /* Date_h */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
