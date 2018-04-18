@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		0BD22C3B2087AF380065FF33 /* Proyecto_3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Proyecto_3; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD22C3E2087AF390065FF33 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5F2784542087B3F700DDE606 /* Date.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				0BD22C3E2087AF390065FF33 /* main.cpp */,
+				5F2784542087B3F700DDE606 /* Date.h */,
 			);
 			path = Proyecto_3;
 			sourceTree = "<group>";

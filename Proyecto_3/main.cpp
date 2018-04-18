@@ -7,9 +7,18 @@
 //
 
 #include <iostream>
+#include "Date.h"
 
-int main(int argc, const char * argv[]) {
-	// insert code here...
-	std::cout << "Hello, World!\n";
+int main()
+{
+//    int x, y, z;
+//    Date *p;
+//    cin >> x >> y >> z;
+//                                  PROBANDO FECHA
+//    p = new Date(x, y, z);
+//
+//    if (p->validDate()){p->show();}
+    
+    
 	return 0;
 }
