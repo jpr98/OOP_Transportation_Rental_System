@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/juanpabloramos/Documents/TEC/Segundo Semestre/Progra Orientada a Objetos/Proyecto_3/Proyecto_3/Date.h">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>
