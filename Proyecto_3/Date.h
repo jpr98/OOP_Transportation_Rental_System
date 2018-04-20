@@ -139,14 +139,18 @@ bool operator>=(Date f1, Date f2)
 {
     bool valid = false;
     
-    if (f1.year >= f2.year)
+    if (f1.year == f2.year)
     {
-        if(f1.month >= f2.month)
+        if(f1.month == f2.month)
         {
             if(f1.day >= f2.day)
                 valid = true;
         }
+        else if(f1.month > f2.month)
+            valid = true;
     }
+    else if(f1.year > f2.year )
+        valid = true;
     
     return valid;
 }
@@ -155,14 +159,18 @@ bool operator<=(Date f1, Date f2)
 {
     bool valid = false;
     
-    if (f1.day <= f2.year)
+    if (f1.year == f2.year)
     {
-        if(f1.day <= f2.month)
+        if(f1.month == f2.month)
         {
             if(f1.day <= f2.day)
                 valid = true;
         }
+        else if(f1.month < f2.month)
+            valid = true;
     }
+    else if(f1.year < f2.year)
+        valid = true;
     
     return valid;
 }
