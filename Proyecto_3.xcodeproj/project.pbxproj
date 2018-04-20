@@ -30,6 +30,8 @@
 		0BD22C462087B7ED0065FF33 /* Cars.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cars.h; sourceTree = "<group>"; };
 		0BD22C472087C4720065FF33 /* Planes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Planes.h; sourceTree = "<group>"; };
 		0BD22C482087CFD40065FF33 /* Reservation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reservation.h; sourceTree = "<group>"; };
+		5F2784682089738400DDE606 /* Servicios.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Servicios.txt; sourceTree = "<group>"; };
+		5F2784692089739C00DDE606 /* Reserva.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Reserva.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				0BD22C3E2087AF390065FF33 /* main.cpp */,
+				5F2784682089738400DDE606 /* Servicios.txt */,
+				5F2784692089739C00DDE606 /* Reserva.txt */,
 				0BD22C452087B3D30065FF33 /* Service.h */,
 				0BD22C462087B7ED0065FF33 /* Cars.h */,
 				0BD22C482087CFD40065FF33 /* Reservation.h */,
