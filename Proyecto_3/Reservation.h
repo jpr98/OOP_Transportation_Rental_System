@@ -27,7 +27,7 @@ class Reservation
 		void setKey(string key);
 		void setClientID(int clientID);
 		void setDays(int days);
-		void setContract(Date contract);
+		void setContractDate(Date contract);
 		// Operations
 		Date calculateEndDate();
 	private:
@@ -80,7 +80,7 @@ void Reservation::setDays(int days)
 {
 	this->days = days;
 }
-void Reservation::setContract(Date contract)
+void Reservation::setContractDate(Date contract)
 {
 	contractDate = contract;
 }
