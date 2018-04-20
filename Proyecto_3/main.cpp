@@ -50,16 +50,31 @@ void readServiceFiles(Service *S[])
 	fServ.open("Servicios.txt");
 	while (fServ>>key>>type>>cost && getline(fServ, description))
 	{
-		for (int i=0; i<description.size() && !found; i++)
+		string opt2;
+		description.substr(description.size());
+		long n = description.size();
+		if (description[n-1] == ' ')
 		{
-			if (description[i] % 1 == 0 || description[i] == '0')
-			{
-				opt1 = description.substr(i);
-				description.erase(i);
-				found = true;
-			}
+			opt2 = description[n];
+			description.erase(n-1);
 		}
-		opt2 = opt1.substr(opt1.find(" "));
+		else
+		{
+			opt2 = description[n-1] + description[n];
+			description.erase(n-2);
+		}
+		n = description.size();
+		string opt1;
+		if (description[n-1] == ' ')
+		{
+			opt1 = description[n];
+			description.erase(n-1);
+		}
+		else
+		{
+			opt1 = description[n-1] + description[n];
+			description.erase(n-2);
+		}
 		
 		// Checking for service type
 		if (type == 'S'||type == 'M'||type == 'T')
@@ -79,7 +94,9 @@ void readServiceFiles(Service *S[])
 		else if (type == 'H'||type == 'J'||type == 'A')
 		{
 			// opt1 is passengers and opt2 is additonal
-			S[count] = new Planes(key,description,type,cost,stoi(opt1),stoi(opt2));
+			int passengers = stoi(opt1);
+			int additional = stoi(opt2);
+			S[count] = new Planes(key,description,type,cost,passengers,additional);
 		}
 		count++;
 	}
@@ -91,8 +108,16 @@ int main()
 	Service *S[6];
 	Reservation R[20];
 	
+	readServiceFiles(S);
+	readReservationFiles(R);
 	
+	S[2]->show();
 	
+	/*  HOW TO DISPLAY RESERVATIONS IN ORDER!!!!!!!!!
+	cout << R[1].getKey() << " " << R[1].getClientID() << " ";
+	cout << R[1].getContractDate();
+	cout << " " <<R[1].getDays() << endl;
+	 */
 	
 	
 	

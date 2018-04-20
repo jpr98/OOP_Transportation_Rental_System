@@ -118,7 +118,7 @@ void Cars::show()
 	{
 		cout<<"Type: Altima"<<endl;
 	}
-	cout<<"Cost: $"<<costPerDay<<endl;
+	cout<<"Cost Per Day: $"<<costPerDay<<endl;
 	if (bulletProof)
 	{
 		cout<<"Bulletproof: Yes"<<endl;
