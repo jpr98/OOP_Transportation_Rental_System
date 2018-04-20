@@ -202,7 +202,6 @@ Date operator+(Date f1, int dias)
                     valid = true;
                 
                 break;
-                
             case 12:
                 if(f2.day > 31)
                 {
@@ -214,7 +213,6 @@ Date operator+(Date f1, int dias)
                     valid = true;
                 
                 break;
-                
             case 4: case 6: case 9: case 11:
                 if(f2.day > 30)
                 {
@@ -225,7 +223,6 @@ Date operator+(Date f1, int dias)
                     valid = true;
                 
                 break;
-                
             case 2:
                 if(f2.leapYear())
                 {
@@ -236,7 +233,6 @@ Date operator+(Date f1, int dias)
                     }
                     else
                         valid = true;
-                    
                 }
                 else
                 {
