@@ -66,7 +66,7 @@ void readServiceFiles(Service *S[])
 		{
 			// Checking for driver and bulletProof
 			if (opt1 == "1")
-			{
+            {
 				driver = true;
 			}
 			if (opt2 == "1")
