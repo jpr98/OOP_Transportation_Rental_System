@@ -119,14 +119,6 @@ void Cars::show()
 		cout<<"Type: Altima"<<endl;
 	}
 	cout<<"Cost Per Day: $"<<costPerDay<<endl;
-	if (bulletProof)
-	{
-		cout<<"Bulletproof: Yes"<<endl;
-	}
-	else
-	{
-		cout<<"Bulletproof: No"<<endl;
-	}
 	if (driver)
 	{
 		cout<<"Driver: Yes"<<endl;
@@ -134,6 +126,14 @@ void Cars::show()
 	else
 	{
 		cout<<"Driver: No"<<endl;
+	}
+	if (bulletProof)
+	{
+		cout<<"Bulletproof: Yes"<<endl;
+	}
+	else
+	{
+		cout<<"Bulletproof: No"<<endl;
 	}
 }
 
