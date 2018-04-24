@@ -165,19 +165,56 @@ void consultServiceRSVP(Reservation R[], Service *S[], int count)
 	}
 }
 
-bool dateOverlap(Reservation R[], int count, int days, Date contractDate)
+void searchReservationByDate(Reservation R[], Service *S[], int count)
+{
+	int day, month, year;
+	cout << "Enter date you want to search: \n";
+	cout << "Day: \n";
+	cin >> day;
+	cout << "Month: \n";
+	cin >> month;
+	cout << "Year: \n";
+	cin >> year;
+	Date d(day, month, year);
+	if (!(d.validDate()))
+	{
+		cout << "Invalid Date try again \n";
+	}
+	else
+	{
+		for (int i = 0; i < count; i++)
+		{
+			if (d == R[i].getContractDate())
+			{
+				for (int j = 0; j < 6; j++) {
+					if (R[i].getKey() == S[j]->getKey())
+					{
+						cout << "---------------" << endl;
+						cout << "Reservation #" << i+1 << endl;
+						S[j]->show();
+						cout << "Client ID: "<< R[i].getClientID() << endl;
+						cout << "Start Date: "<< R[i].getContractDate() << endl;;
+						cout << "End Date: " << R[i].calculateEndDate() << endl;
+						cout << "Total: $" << S[j]->calculateCost(R[i].getDays()) << endl;
+					}
+				}
+			}
+		}
+	}
+}
+
+bool dateOverlap(Reservation R[], int count, int days, Date contractDate, char &over, int pos)
 {
 	bool overlap = false;
-	for (int i=0; i<count; i++)
+	if (contractDate+days >= R[pos].getContractDate())
 	{
-		if (contractDate+days >= R[i].getContractDate())
-		{
-			overlap = true;
-		}
-		if (contractDate <= R[i].calculateEndDate())
-		{
-			overlap = true;
-		}
+		overlap = true;
+		over = 'L';
+	}
+	else if (contractDate <= R[pos].calculateEndDate())
+	{
+		overlap = true;
+		over = 'P';
 	}
 	return overlap;
 }
@@ -187,9 +224,8 @@ void makeRSVP(Reservation R[], Service *S[], int &count)
 	string key;
 	int dd, mm, yyyy;
 	int clientID, days;
-	bool found = false;
-	int pos;
-	
+	int pos = 0;
+	char over; // 'L' = rent less days or push date backwards/ 'P' = push date forward
 	cout << "Enter service key: ";
 	cin >> key;
 	cout << "Enter client ID: ";
@@ -202,77 +238,109 @@ void makeRSVP(Reservation R[], Service *S[], int &count)
 	cin >> yyyy;
 	cout << "Enter how many days of reservation: ";
 	cin >> days;
-	Date contractDate(dd,mm,yyyy);
-	if (!contractDate.validDate())
+	
+	//checking if key in service list
+	bool foundKey = false;
+	for (int i=0; i<6; i++)
 	{
-		cout << "Invalid date, please try again!" << endl;
-	}
-	else
-	{
-		for(int i=0; i<6; i++)
+		if (key == S[i]->getKey())
 		{
-			if (key == S[i]->getKey())
-			{
-				found = true;
-				pos = i;
-			}
+			foundKey = true;
+			pos = i;
 		}
-		if (!found)
+	}
+	
+	//checking if date is valid
+	Date contractDate(dd,mm,yyyy);
+	bool validDate;
+	validDate = contractDate.validDate();
+	
+	//checking if date is available
+	bool dateAvailable = false;
+	dateAvailable = !dateOverlap(R, count, days, contractDate, over, pos);
+	
+	if (!foundKey)
+	{
+		cout << "That service key does not exists. Please try again." << endl;
+	}
+	else if (!validDate)
+	{
+		cout << "That date isn't valid. Please try again." << endl;
+	}
+	else if (!dateAvailable)
+	{
+		char opt, opt2;
+		cout << "Date is taken!" << endl;
+		cout << "Do you want to modify your date?(1/0) ";
+		cin >> opt;
+		// modifying date
+		if (opt != '0')
 		{
-			cout << "Invalid service key, please try again!" << endl;
+			if (over == 'L')
+			{
+				cout << "Change days or date?(1/2) ";
+				cin >> opt2;
+				switch (opt2) {
+					case '1':
+						cout << "New amount of days(less than " << days <<"): ";
+						cin >> days;
+						break;
+					case '2':
+						cout << "New date (before ";
+						contractDate.show();
+						cout <<")" << endl;
+						cout << "Day: ";
+						cin >> dd;
+						cout << "Month: ";
+						cin >> mm;
+						cout << "Year: ";
+						cin >> yyyy;
+						contractDate.setDay(dd);
+						contractDate.setMonth(mm);
+						contractDate.setYear(yyyy);
+						break;
+				}
+			}
+			else if (over == 'P')
+			{
+				cout << "New date (after ";
+				R[pos].calculateEndDate().show();
+				cout <<")" << endl;
+				cout << "Day: ";
+				cin >> dd;
+				cout << "Month: ";
+				cin >> mm;
+				cout << "Year: ";
+				cin >> yyyy;
+				contractDate.setDay(dd);
+				contractDate.setMonth(mm);
+				contractDate.setYear(yyyy);
+			}
+			R[count].setKey(key);
+			R[count].setClientID(clientID);
+			R[count].setContractDate(contractDate);
+			R[count].setDays(days);
+			count++;
+			cout << "Reservation succesful!" << endl;
 		}
 		else
 		{
-			if (dateOverlap(R,count,days,contractDate))
+			cout << "That date is taken. Please try again." << endl;
+		}
+	}
+	else
+	{
+		R[count].setKey(key);
+		R[count].setClientID(clientID);
+		R[count].setContractDate(contractDate);
+		R[count].setDays(days);
+		count++;
+		cout << "Reservation succesful!" << endl;
+		for(int i=0; i<6; i++)
+		{
+			if (S[i]->getKey() == key)
 			{
-				char opt;
-				char opt2;
-				cout << "Those dates are already taken! Please try again..." << endl;
-				cout << "Do you want to modify date?(1/0) ";
-				cin >> opt;
-				if (opt != '1')
-				{
-					cout << "Well thank you! Hope to see you again." << endl;
-				}
-				else
-				{
-					cout << "Modify date or days?(1/2) ";
-					cin >> opt2;
-					if (opt2 == '1')
-					{
-						do
-						{
-							cout << "Enter new reservation date" << endl;
-							cout << "Day: ";
-							cin >> dd;
-							cout << "Month: ";
-							cin >> mm;
-							cout << "Year: ";
-							cin >> yyyy;
-							contractDate.setDay(dd);
-							contractDate.setMonth(mm);
-							contractDate.setYear(yyyy);
-						} while(dateOverlap(R,count,days,contractDate));
-					}
-					else if(opt2 == '2')
-					{
-						do
-						{
-							cout << "How many days? ";
-							cin >> days;
-						}while(dateOverlap(R,count,days,contractDate));
-						
-					}
-				}
-				
-			}
-			else
-			{
-				R[count].setKey(key);
-				R[count].setClientID(clientID);
-				R[count].setContractDate(contractDate);
-				R[count].setDays(days);
-				count++;
+				cout << "Total: $" << S[i]->calculateCost(days)<< endl;
 			}
 		}
 	}
@@ -315,11 +383,11 @@ int main()
 				break;
 			// Search Reservations by Date
 			case '4':
-				//makeRSVP();
+				searchReservationByDate(R, S, rCount);
 				break;
 			// Make Reservation
 			case '5':
-				
+				makeRSVP(R, S, rCount);
 				break;
 		}
 	} while(opt != '6');
