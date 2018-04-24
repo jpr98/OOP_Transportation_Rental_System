@@ -127,6 +127,44 @@ void consultRSVPList(Reservation R[], Service *S[], int count)
 		}
 	}
 }
+
+void consultServiceRSVP(Reservation R[], Service *S[], int count)
+{
+	string userKey;
+	cout << "Enter service key: ";
+	cin >> userKey;
+	bool foundRes = false;
+	bool foundServ = false;
+	for (int i=0; i<6; i++)
+	{
+		if (S[i]->getKey() == userKey)
+		{
+			S[i]->show();
+			for(int j=0; j<count; j++)
+			{
+				if(userKey == R[j].getKey())
+				{
+					cout << "---------------" << endl;
+					cout << "Reservation #" << j+1 << endl;
+					cout << "Client ID: "<< R[j].getClientID() << endl;
+					cout << "Start Date: "<< R[j].getContractDate() << endl;;
+					cout << "End Date: " << R[j].calculateEndDate() << endl;
+					foundRes = true;
+				}
+			}
+			if (!foundRes)
+			{
+				cout << "No reservations for that service." << endl;
+			}
+			foundServ = true;
+		}
+	}
+	if(!foundServ)
+	{
+		cout << "No service with that key." << endl;
+	}
+}
+
 int main()
 {
 	Service *S[6];
@@ -160,7 +198,7 @@ int main()
 				break;
 			// Search Reservations by Service Key
 			case '3':
-				
+				consultServiceRSVP(R, S, rCount);
 				break;
 			// Search Reservations by Date
 			case '4':
