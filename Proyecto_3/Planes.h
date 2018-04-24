@@ -106,7 +106,7 @@ void Planes::show()
 	{
 		cout<<"Type: Airplane"<<endl;
 	}
-	cout<<"Cost: $"<<costPerDay<<endl;
+	cout<<"Cost Per Day: $"<<costPerDay<<endl;
 	cout<<"Passengers: "<<passengers<<endl;
 	cout<<"Additional: "<<additional<<endl;
 }

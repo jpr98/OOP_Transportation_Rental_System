@@ -126,7 +126,8 @@ bool Date::validDate()
     int monthlen[]={31,28,31,30,31,30,31,31,30,31,30,31};
     if (!year || !month || !day || month>12){
         return false;
-        cout << "Not a valid date\n";}
+        //cout << "Not a valid date\n";
+	}
     if (leapYear() && month==2){
         monthlen[1]++;}
     if (day>monthlen[month-1]){
