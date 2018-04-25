@@ -9,10 +9,9 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "Date.h"
-
 
 using namespace std;
+#include "Date.h"
 #include "Cars.h"
 #include "Planes.h"
 #include "Reservation.h"
@@ -48,6 +47,8 @@ void readServiceFiles(Service *S[])
 	fServ.open("Servicios.txt");
 	while (fServ>>key>>type>>cost && getline(fServ, description))
 	{
+		driver = false;
+		bulletProof = false;
 		description.substr(description.size());
 		long n = description.size();
 		if (description[n-1] == ' ')
@@ -85,7 +86,7 @@ void readServiceFiles(Service *S[])
 				bulletProof = true;
 			}
 
-			S[count] = new Cars(key,description,type,cost,driver,bulletProof);
+			S[count] = new Cars(key,description,type,cost,bulletProof,driver);
 		}
 		else if (type == 'H'||type == 'J'||type == 'A')
 		{
@@ -99,6 +100,16 @@ void readServiceFiles(Service *S[])
 	fServ.close();
 }
 
+void writeRSVPFile(Reservation R[], int count)
+{
+	ofstream ofRes;
+	ofRes.open("Reserva.txt");
+	for (int i=0; i<count; i++)
+	{
+		ofRes<<R[i].getKey()<<" "<<R[i].getClientID()<<" "<<R[i].getContractDate().getDay()<<" "<<R[i].getContractDate().getMonth()<<" "<<R[i].getContractDate().getYear()<<" "<<R[i].getDays()<<endl;
+	}
+	ofRes.close();
+}
 void consultServiceList(Service *S[])
 {
 	for (int i=0; i<6; i++)
@@ -120,7 +131,7 @@ void consultRSVPList(Reservation R[], Service *S[], int count)
 				cout << "Reservation #" << i+1 << endl;
 				S[j]->show();
 				cout << "Client ID: "<< R[i].getClientID() << endl;
-				cout << "Start Date: "<< R[i].getContractDate() << endl;;
+				cout << "Start Date: "<< R[i].getContractDate() << endl;
 				cout << "End Date: " << R[i].calculateEndDate() << endl;
 				cout << "Total: $" << S[j]->calculateCost(R[i].getDays()) << endl;
 			}
@@ -167,16 +178,17 @@ void consultServiceRSVP(Reservation R[], Service *S[], int count)
 
 void searchReservationByDate(Reservation R[], Service *S[], int count)
 {
+	bool found = false;
 	int day, month, year;
 	cout << "Enter date you want to search: \n";
-	cout << "Day: \n";
+	cout << "Day: ";
 	cin >> day;
-	cout << "Month: \n";
+	cout << "Month: ";
 	cin >> month;
-	cout << "Year: \n";
+	cout << "Year: ";
 	cin >> year;
 	Date d(day, month, year);
-	if (!(d.validDate()))
+	if (!d.validDate())
 	{
 		cout << "Invalid Date try again \n";
 	}
@@ -196,153 +208,103 @@ void searchReservationByDate(Reservation R[], Service *S[], int count)
 						cout << "Start Date: "<< R[i].getContractDate() << endl;;
 						cout << "End Date: " << R[i].calculateEndDate() << endl;
 						cout << "Total: $" << S[j]->calculateCost(R[i].getDays()) << endl;
+						found = true;
+					}
+				}
+			}
+		}
+		if (!found)
+		{
+			cout << "No reservations on that date!" << endl;
+		}
+	}
+}
+
+bool validData(Reservation R[], Service *S[], int count, Date date1, string serviceKey, int days, bool &serviceValid, bool &validDate)
+{
+	serviceValid = false;
+	validDate = true;
+	for (int i = 0; i < 6; i++)
+	{
+		if (serviceKey == S[i]->getKey())
+		{
+			serviceValid = true;
+			for(int j = 0; j < count; j++)
+			{
+				if (R[j].getKey() == serviceKey)
+				{
+					if (R[j].getContractDate() <= date1 && R[j].calculateEndDate() >= date1)
+					{
+						validDate = false;
+					}
+					if (R[j].getContractDate() <= date1+days && R[j].calculateEndDate() >= date1+days)
+					{
+						validDate = false;
 					}
 				}
 			}
 		}
 	}
-}
-
-bool dateOverlap(Reservation R[], int count, int days, Date contractDate, char &over, int pos)
-{
-	bool overlap = false;
-	if (contractDate+days >= R[pos].getContractDate())
+	if (serviceValid && validDate)
 	{
-		overlap = true;
-		over = 'L';
+		return true;
 	}
-	else if (contractDate <= R[pos].calculateEndDate())
+	else
 	{
-		overlap = true;
-		over = 'P';
+		return false;
 	}
-	return overlap;
 }
 
 void makeRSVP(Reservation R[], Service *S[], int &count)
 {
-	string key;
-	int dd, mm, yyyy;
-	int clientID, days;
-	int pos = 0;
-	char over; // 'L' = rent less days or push date backwards/ 'P' = push date forward
-	cout << "Enter service key: ";
-	cin >> key;
-	cout << "Enter client ID: ";
-	cin >> clientID;
-	cout << "Enter contract day: ";
-	cin >> dd;
-	cout << "Enter contract month: ";
-	cin >> mm;
-	cout << "Enter contract year: ";
-	cin >> yyyy;
-	cout << "Enter how many days of reservation: ";
-	cin >> days;
-	
-	//checking if key in service list
-	bool foundKey = false;
-	for (int i=0; i<6; i++)
-	{
-		if (key == S[i]->getKey())
-		{
-			foundKey = true;
-			pos = i;
-		}
-	}
-	
-	//checking if date is valid
-	Date contractDate(dd,mm,yyyy);
+	int clientID, d, m, y, days;
+	bool serviceValid;
 	bool validDate;
-	validDate = contractDate.validDate();
-	
-	//checking if date is available
-	bool dateAvailable = false;
-	dateAvailable = !dateOverlap(R, count, days, contractDate, over, pos);
-	
-	if (!foundKey)
-	{
-		cout << "That service key does not exists. Please try again." << endl;
-	}
-	else if (!validDate)
-	{
-		cout << "That date isn't valid. Please try again." << endl;
-	}
-	else if (!dateAvailable)
-	{
-		char opt, opt2;
-		cout << "Date is taken!" << endl;
-		cout << "Do you want to modify your date?(1/0) ";
-		cin >> opt;
-		// modifying date
-		if (opt != '0')
+	string serviceKey;
+	string op;
+	bool valid = false;
+	do{
+		cout << "Client ID: \n";
+		cin >> clientID;
+		cout << "Service key: \n";
+		cin >> serviceKey;
+		cout << "Day: \n";
+		cin >> d;
+		cout << "Month: \n";
+		cin >> m;
+		cout << "Year: \n";
+		cin >> y;
+		cout << "Days to rent: \n";
+		cin >> days;
+		Date da(d,m,y);
+		if (da.validDate())
 		{
-			if (over == 'L')
+			valid = validData(R,S,count,da,serviceKey,days,serviceValid,validDate);
+			if (!serviceValid)
 			{
-				cout << "Change days or date?(1/2) ";
-				cin >> opt2;
-				switch (opt2) {
-					case '1':
-						cout << "New amount of days(less than " << days <<"): ";
-						cin >> days;
-						break;
-					case '2':
-						cout << "New date (before ";
-						contractDate.show();
-						cout <<")" << endl;
-						cout << "Day: ";
-						cin >> dd;
-						cout << "Month: ";
-						cin >> mm;
-						cout << "Year: ";
-						cin >> yyyy;
-						contractDate.setDay(dd);
-						contractDate.setMonth(mm);
-						contractDate.setYear(yyyy);
-						break;
-				}
-			}
-			else if (over == 'P')
+				cout << "Service key not valid \n";
+			} else if (!validDate)
 			{
-				cout << "New date (after ";
-				R[pos].calculateEndDate().show();
-				cout <<")" << endl;
-				cout << "Day: ";
-				cin >> dd;
-				cout << "Month: ";
-				cin >> mm;
-				cout << "Year: ";
-				cin >> yyyy;
-				contractDate.setDay(dd);
-				contractDate.setMonth(mm);
-				contractDate.setYear(yyyy);
+				cout << "Try other date \n";
 			}
-			R[count].setKey(key);
-			R[count].setClientID(clientID);
-			R[count].setContractDate(contractDate);
-			R[count].setDays(days);
-			count++;
-			cout << "Reservation succesful!" << endl;
+			if (clientID == -1)
+			{
+				break;
+			}
 		}
 		else
 		{
-			cout << "That date is taken. Please try again." << endl;
+			cout << "Invalid date!" << endl;
 		}
-	}
-	else
-	{
-		R[count].setKey(key);
-		R[count].setClientID(clientID);
-		R[count].setContractDate(contractDate);
-		R[count].setDays(days);
+	}while (!valid);
+	R[count].setClientID(clientID);
+	R[count].setKey(serviceKey);
+	R[count].setDays(days);
+	Date date1(d, m, y);
+	R[count].setContractDate(date1);
+	if (valid) {
+		cout << "Reservation created succefully \n";
 		count++;
-		cout << "Reservation succesful!" << endl;
-		for(int i=0; i<6; i++)
-		{
-			if (S[i]->getKey() == key)
-			{
-				cout << "Total: $" << S[i]->calculateCost(days)<< endl;
-			}
-		}
 	}
 }
 
@@ -391,19 +353,9 @@ int main()
 				break;
 		}
 	} while(opt != '6');
-	
-	
-	
-	
-	
-	
-	/*  HOW TO DISPLAY RESERVATIONS IN ORDER!!!!!!!!!
-	cout << R[1].getKey() << " " << R[1].getClientID() << " ";
-	cout << R[1].getContractDate();
-	cout << " " <<R[1].getDays() << endl;
-	 */
-	
-	
-	
+	writeRSVPFile(R, rCount);
+	cout << "Data saved!" << endl;
+	cout << "Exiting..." << endl;
+
 	return 0;
 }
