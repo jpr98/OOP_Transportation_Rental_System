@@ -12,7 +12,7 @@
 using namespace std;
 #include "Service.h"
 
-class Cars : public Service
+class Cars : public Service //Inherence
 {
 	public:
 	// Constructors
@@ -31,18 +31,19 @@ class Cars : public Service
 		bool bulletProof, driver;
 };
 //-------------------------------------Method definitions-------------------------------------
-// Constructors
+// ***********Default Constructors***********
 Cars::Cars() : Service()
 {
 	bulletProof = false;
 	driver = false;
 }
+//***********Constructors with parameters***********
 Cars::Cars(string key, string description, char type, double cost, bool bulletProof, bool driver) : Service(key,description,type,cost)
 {
 	this->bulletProof = bulletProof;
 	this->driver = driver;
 }
-// Getters
+// ***********Getters***********
 bool Cars::getBulletProof()
 {
 	return bulletProof;
@@ -51,7 +52,7 @@ bool Cars::getDriver()
 {
 	return driver;
 }
-// Setters
+// ***********Setters***********
 void Cars::setBulletProof(bool bulletProof)
 {
 	this->bulletProof = bulletProof;
@@ -60,7 +61,14 @@ void Cars::setDriver(bool driver)
 {
 	this->driver = driver;
 }
-// Operations
+// ***********Operations***********
+/*  calculateCost
+    This method calculates costs
+ Parameters:
+    days to rent
+ Returns:
+    total to pay
+ */
 double Cars::calculateCost(int days)
 {
 	double cost = 0;
@@ -101,6 +109,14 @@ double Cars::calculateCost(int days)
 	}
 	return cost;
 }
+
+/*  show
+ This method shows
+ Parameters:
+    NONE
+ Returns:
+    NONE
+ */
 void Cars::show()
 {
 	cout<<"Car Service"<<endl;

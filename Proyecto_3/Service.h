@@ -39,7 +39,7 @@ class Service
 		double costPerDay;
 };
 //----------------------------------------Method definition------------------------------------
-// Constructors
+// ***********Default constructor***********
 Service::Service()
 {
 	key = "N/A";
@@ -47,6 +47,7 @@ Service::Service()
 	type = '0';
     costPerDay = 0;
 }
+//***********Constructor with parameters***********
 Service::Service(string key, string description, char type, double cost)
 {
 	this->key = key;
@@ -57,7 +58,7 @@ Service::Service(string key, string description, char type, double cost)
 	//}
 	costPerDay = cost;
 }
-// Getters
+// ***********Getters***********
 string Service::getKey()
 {
 	return key;
@@ -74,7 +75,7 @@ double Service::getCostPerDay()
 {
 	return costPerDay;
 }
-// Setters
+// ***********Setters***********
 void Service::setKey(string key)
 {
 	this->key = key;

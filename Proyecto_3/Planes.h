@@ -61,6 +61,13 @@ void Planes::setAdditional(int additional)
 	this->additional = additional;
 }
 // Operations
+/* calculateCost
+ This method calculates cost
+ PArameters:
+    days
+ Returns:
+    TOtal cost: Double
+ */
 double Planes::calculateCost(int days)
 {
 	double cost = 0;
@@ -89,6 +96,7 @@ double Planes::calculateCost(int days)
 	}
 	return cost;
 }
+//This method displays
 void Planes::show()
 {
 	cout<<"Plane Service"<<endl;

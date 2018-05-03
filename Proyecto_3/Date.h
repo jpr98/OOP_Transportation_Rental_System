@@ -79,6 +79,9 @@ void Date::setYear(int year){
     this->year=year;}
 
 //operations
+/*
+ This method returns the name of the month.
+ */
 string Date::nameMonth(){
     switch (month){
         case 1:return "January";
@@ -109,6 +112,7 @@ string Date::nameMonth(){
     return 0;
 }
 //leap year validator
+//This method validates if its leap year.
 bool Date::leapYear(){
     if (year %4==0 && (year % 100 != 0 || year %400 ==0))
         return true;
@@ -135,7 +139,7 @@ bool Date::validDate()
     return true;
 }
 
-// >=, <=, == for comparing dates
+// This method compares dates
 bool operator>=(Date f1, Date f2)
 {
     bool valid = false;
@@ -156,6 +160,7 @@ bool operator>=(Date f1, Date f2)
     return valid;
 }
 
+// This method compares dates
 bool operator<=(Date f1, Date f2)
 {
     bool valid = false;
@@ -176,6 +181,7 @@ bool operator<=(Date f1, Date f2)
     return valid;
 }
 
+// This method compares dates
 bool operator == (Date f1, Date f2)
 {
     bool valid = false;

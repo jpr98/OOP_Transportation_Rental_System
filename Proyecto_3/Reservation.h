@@ -36,7 +36,7 @@ class Reservation
 		Date contractDate;
 };
 //------------------------------------------Method Definition-----------------------------------
-// Constructors
+// ***********Constructors***********
 Reservation::Reservation()
 {
 	key = "N/A";
@@ -50,7 +50,7 @@ Reservation::Reservation(string key, int clientID, int days, Date contract)
 	this->days = days;
 	contractDate = contract;
 }
-// Getters
+// ***********Getters***********
 string Reservation::getKey()
 {
 	return key;
@@ -67,7 +67,7 @@ Date Reservation::getContractDate()
 {
 	return contractDate;
 }
-// Setters
+// ***********Setters***********
 void Reservation::setKey(string key)
 {
 	this->key = key;
@@ -84,7 +84,15 @@ void Reservation::setContractDate(Date contract)
 {
 	contractDate = contract;
 }
-// Operations
+// ***********Operations***********
+/*
+    calculateEndDate
+    This metod calculates the end date
+     Parameters:
+        NONE
+     RETURN:
+        the end date
+ */
 Date Reservation::calculateEndDate()
 {
 	Date returnDate;
